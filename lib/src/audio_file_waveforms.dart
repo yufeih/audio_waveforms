@@ -171,51 +171,42 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
       margin: widget.margin,
       decoration: widget.decoration,
       clipBehavior: widget.clipBehavior,
-      child: GestureDetector(
-        onHorizontalDragUpdate:
-            widget.enableSeekGesture ? _handleDragGestures : null,
-        onTapUp: widget.enableSeekGesture ? _handleScrubberSeekStart : null,
-        onHorizontalDragStart:
-            widget.enableSeekGesture ? _handleHorizontalDragStart : null,
-        onHorizontalDragEnd:
-            widget.enableSeekGesture ? (_) => _handleOnDragEnd() : null,
-        child: ClipPath(
-          // TODO: Update extraClipperHeight when duration labels are added
-          clipper: WaveClipper(extraClipperHeight: 0),
-          child: RepaintBoundary(
-            child: ValueListenableBuilder<int>(
-              builder: (_, __, ___) {
-                return CustomPaint(
-                  isComplex: true,
-                  painter: PlayerWavePainter(
-                    waveformData: _waveformData,
-                    spacing: widget.playerWaveStyle.spacing,
-                    waveColor: widget.playerWaveStyle.fixedWaveColor,
-                    fixedWaveGradient: widget.playerWaveStyle.fixedWaveGradient,
-                    scaleFactor: widget.playerWaveStyle.scaleFactor,
-                    waveCap: widget.playerWaveStyle.waveCap,
-                    showBottom: widget.playerWaveStyle.showBottom,
-                    showTop: widget.playerWaveStyle.showTop,
-                    waveThickness: widget.playerWaveStyle.waveThickness,
-                    totalBackDistance: _totalBackDistance,
-                    dragOffset: _dragOffset,
-                    audioProgress: _audioProgress,
-                    liveWaveColor: widget.playerWaveStyle.liveWaveColor,
-                    liveWaveGradient: widget.playerWaveStyle.liveWaveGradient,
-                    callPushback: !_isScrolled,
-                    pushBack: _pushBackWave,
-                    scrollScale: scrollScale,
-                    seekLineColor: widget.playerWaveStyle.seekLineColor,
-                    seekLineThickness: widget.playerWaveStyle.seekLineThickness,
-                    showSeekLine: widget.playerWaveStyle.showSeekLine,
-                    waveformType: widget.waveformType,
-                    cachedAudioProgress: _cachedAudioProgress,
-                  ),
-                  size: widget.size,
-                );
-              },
-              valueListenable: _seekProgress,
-            ),
+      child: ClipPath(
+        // TODO: Update extraClipperHeight when duration labels are added
+        clipper: WaveClipper(extraClipperHeight: 0),
+        child: RepaintBoundary(
+          child: ValueListenableBuilder<int>(
+            builder: (_, __, ___) {
+              return CustomPaint(
+                isComplex: true,
+                painter: PlayerWavePainter(
+                  waveformData: _waveformData,
+                  spacing: widget.playerWaveStyle.spacing,
+                  waveColor: widget.playerWaveStyle.fixedWaveColor,
+                  fixedWaveGradient: widget.playerWaveStyle.fixedWaveGradient,
+                  scaleFactor: widget.playerWaveStyle.scaleFactor,
+                  waveCap: widget.playerWaveStyle.waveCap,
+                  showBottom: widget.playerWaveStyle.showBottom,
+                  showTop: widget.playerWaveStyle.showTop,
+                  waveThickness: widget.playerWaveStyle.waveThickness,
+                  totalBackDistance: _totalBackDistance,
+                  dragOffset: _dragOffset,
+                  audioProgress: _audioProgress,
+                  liveWaveColor: widget.playerWaveStyle.liveWaveColor,
+                  liveWaveGradient: widget.playerWaveStyle.liveWaveGradient,
+                  callPushback: !_isScrolled,
+                  pushBack: _pushBackWave,
+                  scrollScale: scrollScale,
+                  seekLineColor: widget.playerWaveStyle.seekLineColor,
+                  seekLineThickness: widget.playerWaveStyle.seekLineThickness,
+                  showSeekLine: widget.playerWaveStyle.showSeekLine,
+                  waveformType: widget.waveformType,
+                  cachedAudioProgress: _cachedAudioProgress,
+                ),
+                size: widget.size,
+              );
+            },
+            valueListenable: _seekProgress,
           ),
         ),
       ),
