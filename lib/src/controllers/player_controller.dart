@@ -219,7 +219,7 @@ class PlayerController extends ChangeNotifier {
 
   static void pauseAllPlayers() {
     PlatformStreams.instance.playerControllerFactory.forEach((key, value) {
-        value.pausePlayer();
+      value.pausePlayer();
     });
   }
 
@@ -280,8 +280,13 @@ class PlayerController extends ChangeNotifier {
   /// otherwise nothing happens.
   Future<void> seekTo(int progress) async {
     if (progress < 0) return;
-    if (_playerState == PlayerState.playing) {
+    if (_playerState == PlayerState.playing ||
+        _playerState == PlayerState.paused) {
       await AudioWaveformsInterface.instance.seekTo(playerKey, progress);
+      if (_playerState == PlayerState.paused) {
+        var identifier = PlayerIdentifier<int>(playerKey, progress);
+        PlatformStreams.instance.addCurrentDurationEvent(identifier);
+      }
     }
   }
 
