@@ -6,7 +6,6 @@ class PlayerWavePainter extends CustomPainter {
   final List<double> waveformData;
   final bool showTop;
   final bool showBottom;
-  final double animValue;
   final double scaleFactor;
   final Color waveColor;
   final StrokeCap waveCap;
@@ -31,7 +30,6 @@ class PlayerWavePainter extends CustomPainter {
     required this.waveformData,
     required this.showTop,
     required this.showBottom,
-    required this.animValue,
     required this.scaleFactor,
     required this.waveColor,
     required this.waveCap,
@@ -113,7 +111,7 @@ class PlayerWavePainter extends CustomPainter {
           emptySpace +
           (waveformType.isFitWidth ? 0 : halfWidth);
       final waveHeight =
-          (waveformData[i] * animValue) * scaleFactor * scrollScale;
+          waveformData[i] * scaleFactor * scrollScale;
       final bottomDy = halfHeight + (showBottom ? waveHeight : 0);
       final topDy = halfHeight + (showTop ? -waveHeight : 0);
 

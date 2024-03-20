@@ -94,10 +94,6 @@ class AudioFileWaveforms extends StatefulWidget {
 
 class _AudioFileWaveformsState extends State<AudioFileWaveforms>
     with SingleTickerProviderStateMixin {
-  late AnimationController _growingWaveController;
-  late Animation<double> _growAnimation;
-
-  double _growAnimationProgress = 0.0;
   final ValueNotifier<int> _seekProgress = ValueNotifier(0);
   bool showSeekLine = false;
 
@@ -117,18 +113,6 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
   void initState() {
     super.initState();
     _initialiseVariables();
-    _growingWaveController = AnimationController(
-      vsync: this,
-      duration: widget.animationDuration,
-    );
-    _growAnimation = CurvedAnimation(
-      parent: _growingWaveController,
-      curve: widget.animationCurve,
-    );
-
-    _growingWaveController
-      ..forward()
-      ..addListener(_updateGrowAnimationProgress);
     onCurrentDurationSubscription =
         widget.playerController.onCurrentDurationChanged.listen((event) {
       _seekProgress.value = event;
@@ -162,7 +146,6 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
     onCurrentExtractedWaveformData?.cancel();
     onCompletionSubscription.cancel();
     widget.playerController.removeListener(_addWaveformDataFromController);
-    _growingWaveController.dispose();
     super.dispose();
   }
 
@@ -214,7 +197,6 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
                     showBottom: widget.playerWaveStyle.showBottom,
                     showTop: widget.playerWaveStyle.showTop,
                     waveThickness: widget.playerWaveStyle.waveThickness,
-                    animValue: _growAnimationProgress,
                     totalBackDistance: _totalBackDistance,
                     dragOffset: _dragOffset,
                     audioProgress: _audioProgress,
@@ -242,14 +224,6 @@ class _AudioFileWaveformsState extends State<AudioFileWaveforms>
 
   void _addWaveformDataFromController() =>
       _addWaveformData(widget.playerController.waveformData);
-
-  void _updateGrowAnimationProgress() {
-    if (mounted) {
-      setState(() {
-        _growAnimationProgress = _growAnimation.value;
-      });
-    }
-  }
 
   void _handleOnDragEnd() {
     _isScrolled = false;
