@@ -74,16 +74,24 @@ class PlayerWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     _drawWave(size, canvas);
-    if (showSeekLine && waveformType.isLong) _drawMiddleLine(size, canvas);
+    if (showSeekLine) {
+      if (waveformType.isLong) {
+        _drawMiddleLine(size, canvas, size.width / 2);
+      } else if (waveformType.isFitWidth) {
+        if (audioProgress > 0 && audioProgress < 1) {
+          _drawMiddleLine(size, canvas, size.width * audioProgress);
+        }
+      }
+    }
   }
 
   @override
   bool shouldRepaint(PlayerWavePainter oldDelegate) => true;
 
-  void _drawMiddleLine(Size size, Canvas canvas) {
+  void _drawMiddleLine(Size size, Canvas canvas, double x) {
     canvas.drawLine(
-      Offset(size.width / 2, 0),
-      Offset(size.width / 2, size.height),
+      Offset(x, 0),
+      Offset(x, size.height),
       fixedWavePaint
         ..color = seekLineColor
         ..strokeWidth = seekLineThickness,
@@ -114,7 +122,7 @@ class PlayerWavePainter extends CustomPainter {
         canvas.drawLine(
           Offset(dx, bottomDy),
           Offset(dx, topDy),
-          i < audioProgress * length ? liveWavePaint : fixedWavePaint,
+          i + 1 < audioProgress * length ? liveWavePaint : fixedWavePaint,
         );
       }
     }
