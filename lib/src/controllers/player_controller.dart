@@ -217,6 +217,12 @@ class PlayerController extends ChangeNotifier {
     });
   }
 
+  static void pauseAllPlayers() {
+    PlatformStreams.instance.playerControllerFactory.forEach((key, value) {
+        value.pausePlayer();
+    });
+  }
+
   /// A function to stop player. After calling this.
   Future<void> stopPlayer() async {
     final isStopped =
