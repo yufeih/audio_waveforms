@@ -110,8 +110,7 @@ class PlayerWavePainter extends CustomPainter {
           currentDragPointer +
           emptySpace +
           (waveformType.isFitWidth ? 0 : halfWidth);
-      final waveHeight =
-          waveformData[i] * scaleFactor * scrollScale;
+      final waveHeight = waveformData[i] * scaleFactor * scrollScale;
       final bottomDy = halfHeight + (showBottom ? waveHeight : 0);
       final topDy = halfHeight + (showTop ? -waveHeight : 0);
 
@@ -120,7 +119,11 @@ class PlayerWavePainter extends CustomPainter {
         canvas.drawLine(
           Offset(dx, bottomDy),
           Offset(dx, topDy),
-          i + 1 < audioProgress * length ? liveWavePaint : fixedWavePaint,
+          audioProgress == 0 ||
+                  audioProgress == 1 ||
+                  i + 1 < audioProgress * length
+              ? liveWavePaint
+              : fixedWavePaint,
         );
       }
     }
