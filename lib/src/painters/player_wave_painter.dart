@@ -76,9 +76,7 @@ class PlayerWavePainter extends CustomPainter {
       if (waveformType.isLong) {
         _drawMiddleLine(size, canvas, size.width / 2);
       } else if (waveformType.isFitWidth) {
-        if (audioProgress > 0 && audioProgress < 1) {
-          _drawMiddleLine(size, canvas, size.width * audioProgress);
-        }
+        _drawMiddleLine(size, canvas, size.width * audioProgress);
       }
     }
   }
